@@ -21,4 +21,4 @@
 # 두 문자열을 합쳐 연결한(concatenate) 결과를 만들어 낸다.
 
 a, b = input().split()
-print(a, b, sep='')
+print(a+b)
