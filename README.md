@@ -26,8 +26,8 @@ Codingtest_practice/
 │
 ├── practice/              # 백준 문제 풀이
 │   └── 문제명/
-│       └── 문제명.py      # 실제 코드
-│       └── README.md      # 풀이 방식 & 코드 정리
+│       ├── 문제명.py      # 실제 코드
+│       └── 문제명.md      # 풀이 방식 & 코드 정리
 │
 ├── python_basic_100/      # Codeup 파이썬 기초 100제
 │
