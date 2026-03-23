@@ -82,3 +82,20 @@ for i in n2List:
     LCM *= i
 
 print(LCM)
+
+# 유클리드 호제법
+# import sys
+
+# input = sys.stdin.readline
+# a, b = map(int, input().split())
+
+# x, y = a, b
+
+# while y != 0:
+#     x, y = y, x % y
+
+# gcd = x
+# lcm = a * b // gcd
+
+# print(gcd)
+# print(lcm)
