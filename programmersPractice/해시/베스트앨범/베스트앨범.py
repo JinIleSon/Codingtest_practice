@@ -8,20 +8,23 @@ def solution(genres, plays):
         if songDict.get(genres[i], 0) == 0:
             # 배운 점: list() 함수는 해당 값을 순회가능할 때(iterable)만 사용 가능하다. 숫자는 불가.
             # 따라서 []는 그 자체의 값을 리스트화 하기 때문에 이걸 사용하자.
-            songDict[genres[i]] = songDict.get(genres[i], [plays[i]])
+            songDict[genres[i]] = songDict.get(genres[i], [(plays[i], i)])
         # 장르 있으면 해당 리스트에 append 함수
         else:
             # 배운 점: append() 함수는 None을 반환하기 때문에 =으로 받아서는 안 된다.
-            songDict.get(genres[i], 0).append(plays[i])
-
+            songDict.get(genres[i], 0).append((plays[i], i))
+    
+    print("songDict:", songDict)
     # sum한 딕셔너리를 만듦
     sumDict = {}
 
     # 노래 딕셔너리 내 큰 순 정렬
     for key, value in songDict.items():
-        songDict[key].sort(reverse=True)
+        sumValue = 0
+        for i in range(len(value)):
+            sumValue += value[i][0]
         # sum한 딕셔너리 값 넣기
-        sumDict[key] = sum(value)
+        sumDict[key] = sumValue
 
     # sum 딕셔너리 내 큰 순 정렬
     # 배운 점: 리스트는 sort() 함수가 사용 가능하지만, 나머지는 sorted()를 사용해야 함.
@@ -34,18 +37,22 @@ def solution(genres, plays):
     # x에 sumDict.keys() 하나씩 넣고 sumDict[key]의 숫자값끼리 역순으로 sorted()
     sumDict = sorted(sumDict.keys(), key= lambda x: sumDict[x], reverse=True)
 
+    print("sumDict:", sumDict)
+
     max1, max2 = '', ''
     answer = []
+
+    print(songDict[0])
 
     # 장르 1개
     if len(sumDict) == 1:
         # 장르 1개, 노래 1개
-        if len(songDict[0]) == 1:
+        if len(sumDict[0]) == 1:
             answer.append(0)
         # 장르 1개, 노래 2개 이상
         else:
-            answer.append(plays.index(songDict[0][0]))
-            answer.append(plays.index(songDict[0][1]))
+            answer.append(plays.index(sumDict[0][0]))
+            answer.append(plays.index(sumDict[0][1]))
         return answer
 
     # 장르 2개 이상
@@ -74,7 +81,7 @@ def solution(genres, plays):
         # 두 번째로 큰 장르 + 두 번째 노래
         elif len(songDict[max2]) >= 2:
             answer.append(plays.index(songDict[max2][0]))
-            answer.append(plays.index(songDict[max2][1]))
+    #         answer.append(plays.index(songDict[max2][1]))
 
         return answer
 
