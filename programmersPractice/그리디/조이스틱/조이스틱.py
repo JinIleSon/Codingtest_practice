@@ -21,9 +21,6 @@ def solution(name):
     # 현재 인덱스
     i = 0
 
-    # 이동할 인덱스(i1은 오른쪽, i2는 왼쪽)
-    i1 = 0
-    i2 = 0
     while nameList != answer:
         # 해당 인덱스가 M이하인 경우 1씩 오른쪽으로 더함(사실상 1더하는 건 왼쪽이랑 동일. 최대 M까지)
         while nameList[i] != answer[i] and nameList[i] <= 'M':
@@ -38,48 +35,23 @@ def solution(name):
                 continue
             answer[i] = chr(ord(answer[i]) - 1)
             count += 1
-        
-        i1 = i + 1
-        i2 = i - 1
-        count1 = 1
-        count2 = 1
-        # 오른쪽으로 이동
-        while i1 <= len(nameList) - 1:
-            if nameList[i1] != answer[i1] and nameList[i1] != 'A':
-                break
-            i1 += 1
-            count1 += 1
-        if i1 == len(nameList) and nameList[len(nameList) - 1] == answer[len(nameList) - 1]:
-            count1 = 21
-            
-        # 왼쪽으로 이동
-        while i2 >= -len(nameList):
-            if nameList[i2] != answer[i2] and nameList[i2] != 'A':
-                break
-            i2 -= 1
-            count2 += 1
-        if i2 == -len(nameList) - 1 and nameList[-len(nameList)] == answer[-len(nameList)]:
-            count2 = 21
+        i += 1
 
-        print("count1:", count1)
-        print("count2:", count2)
-        print("i1:", i1)
-        print("i2:", i2)
+    n = len(name)
+    # 오른쪽으로만 갔을 때 n - 1
+    move = n - 1
+    # 오른쪽으로만 가는 방법, non-A를 기점으로 하여 반대편으로 꺾는 방법 (오 -> 왼 / 왼 -> 오) 
+    for i in range(n):
+        next = i + 1
+        while n > next and name[next] == 'A':
+            next += 1
 
-        # 모두 완성된 경우
-        if count1 == 21 and count2 == 21:
-            break
+        # n - 1 - next가 아니라 n - next인 이유는 wrap하는 것도 개수에 포함되기 때문
+        # 오른쪽 갔다가 왼쪽으로 간 후 wrap 후 오른쪽에서 왼쪽으로 이동
+        move = min(move, i * 2 + (n - next))
+        # 왼쪽 갔다가(wrap) 오른쪽에서 왼쪽 쭉 갔다가 다시 오른쪽으로 돌아가서 wrap 후 왼쪽에서 오른쪽으로 이동(i까지)  
+        move = min(move, (n - next) * 2 + i)
 
-        # 최소한으로 이동하는 것으로 선택
-        if count1 <= count2:
-            i = i1
-            count += count1
-        else:
-            i = i2
-            count += count2
-        
-        print("answer:",answer)
-        print("i:",i)
-        print("count:",count)
+    count += move
 
     return count
