@@ -1,39 +1,30 @@
-# 문자열에서 k개 만큼의 숫자를 없애서 해당 수가 가장 크게끔 해야 함
-# (숫자, 인덱스)에 관해 오름차순으로 정렬된 리스트를 가지고 삭제 진행
-# 최상위 값을 기준으로 가장 가까운 인덱스이면서, 가장 작은 수를 삭제 해야 함
-
 def solution(number, k):
-    # k 길이 내부에서 가장 큰 수를 찾아서 앞에 있는 숫자는 다 자르고 그 후 
-    # 남은 개수 중에 값이 작은 수, 인덱스 순으로 나열 후 k 개수만큼 삭제
-
-    maxN = []
-
-    for i in range(k):
-        maxN.append(number[i])
-
-    maxValue = max(maxN)
-
-    for i in range(k):
-        if number[i] == maxValue:
-            break
     
-    k -= i
-    number = number[i:]
-    
-    # print("k:", k)
-    print("number:", number)
+    lenN = len(number)
+    maxN = 0
+    text = ""
 
-    sortNumber = number[1:]
-    sortIndexNumber = []
+    i = 0
+    detectRange = lenN - k
+    maxIndex = -1 # 인덱스 0부터 시작하도록 하기 위함
+    while detectRange > 0:
 
-    for i in range(len(sortNumber)):
-        sortIndexNumber.append((sortNumber[i], i))
+        # 마지막 인덱스가 가장 큰 수였다면, maxIndex를 계속 고정 시킨다면 무한루프 가능성 있음
+        # 따라서 골랐다면 그 다음 인덱스부터 보도록 하게 하면 됨
+        j = maxIndex + 1
+        maxN = 0
 
-    # 가장 큰 수 + 가장 큰 수 중 첫 인덱스 제외한 수 정렬 필요
-    sortIndexNumber.sort(key = lambda x: (x[0], x[1]))
+        # lenN -k -1 +i 같은 식의 경우는 직접 시작 인덱스, 끝 인덱스를 구해보면서 진행해야 함 - 이게 아님. 다른 테스트케이스에도 적용시켜봐야 함. 틀렸음
+        # k + i를 범위로 넣으면 정확하게 작동함
+        while j <= k + i:
+            if maxN < int(number[j]):
+                maxN = int(number[j])
+                maxIndex = j
+            
+            j += 1
 
-    print("sortIndexNumber:", sortIndexNumber)
+        text += str(maxN)
+        i += 1
+        detectRange -= 1
 
-    # for i in range()
-
-    return 0
+    return text
