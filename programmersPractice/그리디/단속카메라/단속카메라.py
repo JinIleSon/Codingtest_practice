@@ -12,15 +12,12 @@ def solution(routes):
 
     i = 0
     while i < length:
-        while i + 1 < length and routes[i][1] >= routes[i + 1][0] and routes[i][1] <= routes[i + 1][1]:
+        j = i
+        while i + 1 < length and routes[j][1] >= routes[i + 1][0] and routes[j][1] <= routes[i + 1][1]:
             i += 1
-            if (i + 1 < length and not (routes[i][1] >= routes[i + 1][0] and routes[i][1] <= routes[i + 1][1])):
-                count += 1
         
-        # 다음 구간이 진출 시점에 대해서 해당되지 못하고 나왔을 때    
+        # 다음 구간이 진출 시점에 대해서 해당되지 못하고 나왔을 때
         count += 1
         i += 1
 
     return count
-
-print(solution([[-20,-15], [-14,-5], [-18,-13], [-5,-3]]))
